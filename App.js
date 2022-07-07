@@ -1,14 +1,8 @@
 import React from 'react';
 
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Image,
-} from 'react-native';
+import {SafeAreaView, StatusBar, useColorScheme, FlatList} from 'react-native';
+
+import restaurants from './assets/data/restaurants.json';
 
 import RestaurantItem from './src/components/RestaurantItem';
 
@@ -27,7 +21,12 @@ const App = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <RestaurantItem />
+      {/* <RestaurantItem restaurant={restaurants[0]} />
+      <RestaurantItem restaurant={restaurants[1]} /> */}
+      <FlatList
+        data={restaurants}
+        renderItem={({item}) => <RestaurantItem restaurant={item} />}
+      />
     </SafeAreaView>
   );
 };
