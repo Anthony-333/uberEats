@@ -20,12 +20,12 @@ const App = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      {/* <RestaurantItem restaurant={restaurants[0]} />
-      <RestaurantItem restaurant={restaurants[1]} /> */}
+      <StatusBar barStyle={isDarkMode ? 'light' : 'dark'} />
+
       <FlatList
         data={restaurants}
         renderItem={({item}) => <RestaurantItem restaurant={item} />}
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );
