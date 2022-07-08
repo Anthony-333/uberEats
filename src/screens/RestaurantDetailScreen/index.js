@@ -4,16 +4,19 @@ import React from 'react';
 import restaurants from '../../../assets/data/restaurants.json';
 import * as Icons from 'react-native-heroicons/solid';
 import DishListItem from '../../components/DishListItem';
+import Header from './Header';
 
 const restaurant = restaurants[0];
 
 const RestaurantDetailsPage = () => {
   return (
     <View style={{flex: 1}}>
-      <Image
-        source={{uri: restaurant.image}}
-        style={{width: '100%', aspectRatio: 5 / 3}}
+      <FlatList
+        ListHeaderComponent={Header}
+        data={restaurant.dishes}
+        renderItem={({item}) => <DishListItem dish={item} />}
       />
+
       <View
         style={{
           backgroundColor: 'white',
@@ -28,28 +31,6 @@ const RestaurantDetailsPage = () => {
         }}>
         <Icons.ChevronLeftIcon size={25} color="#000" />
       </View>
-      <View style={{padding: 10}}>
-        <Text
-          style={{
-            fontSize: 35,
-            fontWeight: 'bold',
-            color: '#000',
-            // marginVertical: 5,
-          }}>
-          {restaurant.name}
-        </Text>
-        <Text style={{color: 'gray', fontSize: 15}}>
-          $ {restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
-          {restaurant.maxDeliveryTime} minutes
-        </Text>
-      </View>
-
-      <FlatList
-        data={restaurant.dishes}
-        renderItem={({item}) => <DishListItem dish={item} />}
-      />
-      {/* <DishListItem dish={restaurant.dishes[0]} />
-      <DishListItem dish={restaurant.dishes[2]} /> */}
     </View>
   );
 };
