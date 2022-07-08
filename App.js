@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {SafeAreaView, StatusBar, useColorScheme, FlatList} from 'react-native';
-
-import restaurants from './assets/data/restaurants.json';
-
-import RestaurantItem from './src/components/RestaurantItem';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {TailwindProvider} from 'tailwindcss-react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+//Screen import
+import HomeScreen from './src/screens/HomeScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,15 +19,12 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light' : 'dark'} />
-
-      <FlatList
-        data={restaurants}
-        renderItem={({item}) => <RestaurantItem restaurant={item} />}
-        showsVerticalScrollIndicator={false}
-      />
-    </SafeAreaView>
+    <TailwindProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light' : 'dark'} />
+        <HomeScreen />
+      </SafeAreaView>
+    </TailwindProvider>
   );
 };
 
