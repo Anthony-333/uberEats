@@ -1,4 +1,4 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, FlatList} from 'react-native';
 import React from 'react';
 
 import restaurants from '../../../assets/data/restaurants.json';
@@ -22,16 +22,19 @@ const RestaurantDetailsPage = () => {
           top: 20,
           left: 10,
           borderRadius: 50,
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
         <Icons.ChevronLeftIcon size={25} color="#000" />
       </View>
-      <View style={{padding: 5}}>
+      <View style={{padding: 10}}>
         <Text
           style={{
             fontSize: 35,
             fontWeight: 'bold',
             color: '#000',
-            marginVertical: 5,
+            // marginVertical: 5,
           }}>
           {restaurant.name}
         </Text>
@@ -40,7 +43,13 @@ const RestaurantDetailsPage = () => {
           {restaurant.maxDeliveryTime} minutes
         </Text>
       </View>
-      <DishListItem />
+
+      <FlatList
+        data={restaurant.dishes}
+        renderItem={({item}) => <DishListItem dish={item} />}
+      />
+      {/* <DishListItem dish={restaurant.dishes[0]} />
+      <DishListItem dish={restaurant.dishes[2]} /> */}
     </View>
   );
 };
