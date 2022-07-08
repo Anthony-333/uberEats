@@ -7,6 +7,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 //Screen import
 import HomeScreen from './src/screens/HomeScreen';
+import RestaurantDetailsPage from './src/screens/RestaurantDetailScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,7 +23,8 @@ const App = () => {
     <TailwindProvider>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar barStyle={isDarkMode ? 'light' : 'dark'} />
-        <HomeScreen />
+        {/* <HomeScreen /> */}
+        <RestaurantDetailsPage />
       </SafeAreaView>
     </TailwindProvider>
   );
