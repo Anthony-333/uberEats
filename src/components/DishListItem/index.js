@@ -1,9 +1,13 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Pressable} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const DishListItem = ({dish}) => {
+  const navigation = useNavigation();
+
   return (
-    <View
+    <Pressable
+      onPress={() => navigation.navigate('Dish', {id: dish.id})}
       style={{
         margin: 10,
         paddingBottom: 10,
@@ -26,7 +30,7 @@ const DishListItem = ({dish}) => {
           style={{height: 75, aspectRatio: 1}}
         />
       )}
-    </View>
+    </Pressable>
   );
 };
 
