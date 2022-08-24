@@ -39,7 +39,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="Orders"
-        component={OrderScreen}
+        component={OrderStackNavigator}
         options={{
           tabBarIcon: ({color}) => (
             <AntDesign name="solution1" size={24} color={color} />
@@ -67,7 +67,19 @@ const HomeStackNavigator = () => {
       <HomeStack.Screen name="Restaurants" component={HomeScreen} />
       <HomeStack.Screen name="Restaurant" component={RestaurantDetailsPage} />
       <HomeStack.Screen name="Dish" component={DishDetailsScreen} />
+      <HomeStack.Screen name="Basket" component={Basket} />
     </HomeStack.Navigator>
+  );
+};
+
+const OrdersStack = createNativeStackNavigator();
+
+const OrderStackNavigator = () => {
+  return (
+    <OrdersStack.Navigator>
+      <OrdersStack.Screen name="Orders" component={OrderScreen} />
+      <OrdersStack.Screen name="Order" component={OrderDetails} />
+    </OrdersStack.Navigator>
   );
 };
 
