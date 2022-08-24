@@ -5,16 +5,23 @@ import restaurants from '../../../assets/data/restaurants.json';
 import * as Icons from 'react-native-heroicons/solid';
 import DishListItem from '../../components/DishListItem';
 import Header from './Header';
+import {useRoute, useNavigation} from '@react-navigation/native';
 
 const restaurant = restaurants[0];
 
 const RestaurantDetailsPage = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const id = route.params?.id;
+
   return (
     <View style={{flex: 1}}>
       <FlatList
         ListHeaderComponent={Header}
         data={restaurant.dishes}
         renderItem={({item}) => <DishListItem dish={item} />}
+        keyExtractor={item => item.name}
       />
 
       <View
@@ -29,7 +36,11 @@ const RestaurantDetailsPage = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Icons.ChevronLeftIcon size={25} color="#000" />
+        <Icons.ChevronLeftIcon
+          onPress={() => navigation.goBack()}
+          size={25}
+          color="#000"
+        />
       </View>
     </View>
   );
