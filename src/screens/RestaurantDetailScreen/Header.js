@@ -14,7 +14,7 @@ const Header = () => {
         source={{uri: restaurant.image}}
         style={{width: '100%', aspectRatio: 5 / 3}}
       />
-      
+
       <View style={{padding: 10}}>
         <Text
           style={{
@@ -29,9 +29,8 @@ const Header = () => {
           $ {restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
           {restaurant.maxDeliveryTime} minutes
         </Text>
+        <Text>Menu</Text>
       </View>
-
-
     </View>
   );
 };

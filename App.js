@@ -11,6 +11,7 @@ import RestaurantDetailsPage from './src/screens/RestaurantDetailScreen';
 import DishDetailsScreen from './src/screens/DishDetailsScreen';
 import Basket from './src/screens/BasketScreen';
 import OrderScreen from './src/screens/OrderScreen';
+import OrderDetails from './src/screens/OrderDetails';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,8 +30,9 @@ const App = () => {
         {/* <HomeScreen /> */}
         {/* <RestaurantDetailsPage /> */}
         {/* <DishDetailsScreen /> */}
-        {/* <Basket /> */}
-        <OrderScreen />
+        <Basket />
+        {/* <OrderScreen /> */}
+        {/* <OrderDetails /> */}
       </SafeAreaView>
     </TailwindProvider>
   );
