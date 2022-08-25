@@ -3,6 +3,9 @@ import React from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 
+const DEFAULT_IMAGE =
+  'https://res.cloudinary.com/dzhvw7vxn/image/upload/v1661407376/UberEats/noimage_xzk1qy.jpg';
+
 const RestaurantItem = ({restaurant}) => {
   const navigation = useNavigation();
 
@@ -16,7 +19,9 @@ const RestaurantItem = ({restaurant}) => {
       style={{width: '100%', padding: 10, marginVertical: 5}}>
       <Image
         source={{
-          uri: restaurant.image,
+          uri: restaurant.image.startsWith('http')
+            ? restaurant.image
+            : DEFAULT_IMAGE,
         }}
         style={{width: '100%', aspectRatio: 5 / 3, marginBottom: 5}}
       />
@@ -32,8 +37,8 @@ const RestaurantItem = ({restaurant}) => {
             {restaurant.name}
           </Text>
           <Text style={{color: 'gray'}}>
-            $ {restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
-            {restaurant.maxDeliveryTime} minutes
+            $ {restaurant.deliveryFee.toFixed(2)} &#8226;{' '}
+            {restaurant.minDeliveryTime}-{restaurant.maxDeliveryTime} minutes
           </Text>
         </View>
 
@@ -47,7 +52,7 @@ const RestaurantItem = ({restaurant}) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text>{restaurant.rating}</Text>
+          <Text>{restaurant.rating.toFixed(1)}</Text>
         </View>
       </View>
     </Pressable>

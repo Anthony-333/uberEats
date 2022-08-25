@@ -1,17 +1,19 @@
 import {View, Text, Image, FlatList} from 'react-native';
 import React from 'react';
 
-import restaurants from '../../../assets/data/restaurants.json';
 import * as Icons from 'react-native-heroicons/solid';
 import DishListItem from '../../components/DishListItem';
 
-const restaurant = restaurants[0];
+const DEFAULT_IMAGE =
+  'https://res.cloudinary.com/dzhvw7vxn/image/upload/v1661407376/UberEats/noimage_xzk1qy.jpg';
 
-const Header = () => {
+const Header = ({restaurant}) => {
   return (
     <View style={{flex: 1}}>
       <Image
-        source={{uri: restaurant.image}}
+        source={{ uri: restaurant.image.startsWith('http')
+            ? restaurant.image
+            : DEFAULT_IMAGE,}}
         style={{width: '100%', aspectRatio: 5 / 3}}
       />
 
@@ -26,7 +28,7 @@ const Header = () => {
           {restaurant.name}
         </Text>
         <Text style={{color: 'gray', fontSize: 15}}>
-          $ {restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
+          $ {restaurant.deliveryFee.toFixed(2)} &#8226; {restaurant.minDeliveryTime}-
           {restaurant.maxDeliveryTime} minutes
         </Text>
         <Text>Menu</Text>
