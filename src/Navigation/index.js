@@ -11,20 +11,28 @@ import Basket from '../screens/BasketScreen';
 import OrderScreen from '../screens/OrderScreen';
 import OrderDetails from '../screens/OrderDetails';
 import ProfileScreen from '../screens/ProfileScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 import {Foundation, FontAwesome5, AntDesign} from '@expo/vector-icons';
 import {useAuthContext} from '../context/AuthContext';
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
-  const {dbUser} = useAuthContext();
+  const {dbUser, authUser} = useAuthContext();
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {dbUser ? (
-        <Stack.Screen name="HomeTabs" component={HomeTabs} />
+      {authUser ? (
+        dbUser ? (
+          <Stack.Screen name="HomeTabs" component={HomeTabs} />
+        ) : (
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+        )
       ) : (
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       )}
+
+      <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
   );
 };

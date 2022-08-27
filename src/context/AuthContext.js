@@ -12,6 +12,7 @@ const AuthContextProvider = ({children}) => {
   }, []);
 
   const sub = authUser?.attributes?.sub;
+  
   return (
     <AuthContext.Provider value={{authUser, dbUser, sub}}>
       {children}
