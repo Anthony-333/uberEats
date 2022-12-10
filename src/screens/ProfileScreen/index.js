@@ -1,32 +1,33 @@
-import {View, Text, TextInput, StyleSheet, Button, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Auth, DataStore} from 'aws-amplify';
-import {User} from '../../models';
-import {useAuthContext} from '../../context/AuthContext';
+import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Auth, DataStore } from "aws-amplify";
+import { User } from "../../models";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Profile = () => {
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [lat, setLat] = useState('0');
-  const [lng, setLng] = useState('0');
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [lat, setLat] = useState("0");
+  const [lng, setLng] = useState("0");
 
-  const {sub} = useAuthContext;
+  const { sub, setDbUser } = useAuthContext();
 
-  const onSave = () => {
-   try {
-    DataStore.save(
-      new User({
-        name,
-        address,
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-        sub,
-      }),
-    );
-   } catch (e) {
-    Alert.alert("Error", e.message)
-   }
+  const onSave = async () => {
+    try {
+      const user = await DataStore.save(
+        new User({
+          name,
+          address,
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+          sub,
+        })
+      );
+      setDbUser(user);
+    } catch (e) {
+      Alert.alert("Error", e.message);
+    }
   };
 
   return (
@@ -60,7 +61,8 @@ const Profile = () => {
       <Button onPress={onSave} title="Save" />
       <Text
         onPress={() => Auth.signOut()}
-        style={{color: 'red', textAlign: 'center'}}>
+        style={{ color: "red", textAlign: "center" }}
+      >
         Sign out
       </Text>
     </SafeAreaView>
@@ -70,13 +72,13 @@ const Profile = () => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     margin: 10,
   },
   input: {
     margin: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 15,
     borderRadius: 5,
   },

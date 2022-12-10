@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 
@@ -37,7 +38,7 @@ const RegisterScreen = () => {
     setLoading(true);
 
     try {
-      const user = await Auth.signIn(email, password);
+      const user = await Auth.signUp(email, password);
       navigation.navigate('OtpVerification', {user});
     } catch (e) {
       Alert.alert('Error', e.message);
