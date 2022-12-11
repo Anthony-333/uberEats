@@ -5,15 +5,43 @@ import { Auth, DataStore } from "aws-amplify";
 import { User } from "../../models";
 import { useAuthContext } from "../../context/AuthContext";
 
-const Profile = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("0");
-  const [lng, setLng] = useState("0");
+const Profile = ({ navigation }) => {
+  const { dbUser } = useAuthContext();
+
+  const [name, setName] = useState(dbUser?.name || "");
+  const [address, setAddress] = useState(dbUser?.address || "");
+  const [lat, setLat] = useState(dbUser?.lat + "" || "0");
+  const [lng, setLng] = useState(dbUser?.lng + "" || "0");
 
   const { sub, setDbUser } = useAuthContext();
 
   const onSave = async () => {
+    createUser();
+    navigation.navigate("Home", { screen: 'Restaurants' });
+  };
+
+  const onUpdate = async () => {
+    updateUser();
+    navigation.goBack();
+  };
+
+  const updateUser = async () => {
+    try {
+      const user = await DataStore.save(
+        User.copyOf(dbUser, (updated) => {
+          updated.name = name;
+          updated.address = address;
+          updated.lat = parseFloat(lat);
+          updated.lng = parseFloat(lng);
+        })
+      );
+      setDbUser(user);
+    } catch (e) {
+      Alert.alert("Error", e.message);
+    }
+  };
+
+  const createUser = async () => {
     try {
       const user = await DataStore.save(
         new User({
@@ -58,7 +86,12 @@ const Profile = () => {
         placeholder="Longitude"
         style={styles.input}
       />
-      <Button onPress={onSave} title="Save" />
+      {dbUser ? (
+        <Button onPress={() => onUpdate()} title="Update" />
+      ) : (
+        <Button onPress={() => onSave()} title="Save" />
+      )}
+
       <Text
         onPress={() => Auth.signOut()}
         style={{ color: "red", textAlign: "center" }}

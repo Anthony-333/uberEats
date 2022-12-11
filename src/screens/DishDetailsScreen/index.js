@@ -1,9 +1,10 @@
-import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {AntDesign} from '@expo/vector-icons';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {DataStore} from 'aws-amplify';
-import {Dish} from '../../models';
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { useState, useEffect } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { DataStore } from "aws-amplify";
+import { Dish } from "../../models";
+import { useBasketContext } from "../../context/BasketContext";
 
 const DishDetailsScreen = () => {
   const [dish, setDish] = useState(null);
@@ -12,6 +13,8 @@ const DishDetailsScreen = () => {
 
   const id = route.params?.id;
 
+  const { addDishToBasket } = useBasketContext();
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -19,6 +22,11 @@ const DishDetailsScreen = () => {
       DataStore.query(Dish, id).then(setDish);
     }
   }, [id]);
+
+  const onAddToBasket = async () => {
+    await addDishToBasket(dish, quantity);
+    navigation.goBack();
+  };
 
   const onMinus = () => {
     if (quantity > 1) {
@@ -35,45 +43,47 @@ const DishDetailsScreen = () => {
   };
 
   if (!dish) {
-    return <ActivityIndicator size={'large'} />;
+    return <ActivityIndicator size={"large"} />;
   }
 
   return (
-    <View style={{flex: 1, width: '100%', padding: 10}}>
-      <Text style={{fontSize: 30, fontWeight: '600', marginVertical: 10}}>
+    <View style={{ flex: 1, width: "100%", padding: 10 }}>
+      <Text style={{ fontSize: 30, fontWeight: "600", marginVertical: 10 }}>
         {dish.name}
       </Text>
-      <Text style={{color: 'gray'}}>{dish.description}</Text>
+      <Text style={{ color: "gray" }}>{dish.description}</Text>
       <View
-        style={{height: 1, backgroundColor: 'lightgrey', marginVertical: 10}}
+        style={{ height: 1, backgroundColor: "lightgrey", marginVertical: 10 }}
       />
 
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
           marginTop: 10,
-        }}>
+        }}
+      >
         <TouchableOpacity onPress={onMinus}>
-          <AntDesign name="minuscircleo" size={60} color={'black'} />
+          <AntDesign name="minuscircleo" size={60} color={"black"} />
         </TouchableOpacity>
 
-        <Text style={{fontSize: 25, marginHorizontal: 20}}>{quantity}</Text>
-        <TouchableOpacity onPress={onMinus}>
-          <AntDesign name="pluscircleo" size={60} color={'black'} />
+        <Text style={{ fontSize: 25, marginHorizontal: 20 }}>{quantity}</Text>
+        <TouchableOpacity onPress={onPlus}>
+          <AntDesign name="pluscircleo" size={60} color={"black"} />
         </TouchableOpacity>
       </View>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('Basket')}
+        onPress={() => onAddToBasket()}
         style={{
-          backgroundColor: 'black',
-          marginTop: 'auto',
+          backgroundColor: "black",
+          marginTop: "auto",
           padding: 20,
-          alignItems: 'center',
-        }}>
-        <Text style={{color: 'white', fontWeight: '600', fontSize: 15}}>
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "600", fontSize: 15 }}>
           Add {quantity} to basket &#8226; ${getTotal()}
         </Text>
       </TouchableOpacity>
