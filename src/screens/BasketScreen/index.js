@@ -3,12 +3,19 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import BasketDishItem from "../../components/BasketDishItem";
 import { useBasketContext } from "../../context/BasketContext";
-import { useOrderContext } from "../../context/OrderContex";
-
+import { useNavigation } from "@react-navigation/native";
+import { useOrderContext } from "../../context/OrderContext";
 
 const Basket = () => {
   const { restaurant, basketDishes, totalPrice } = useBasketContext();
   const { createOrder } = useOrderContext();
+  const navigation = useNavigation();
+  
+  const onCreateOrder = async () => {
+    await createOrder();
+    navigation.goBack();
+  };
+
   return (
     <View style={{ flex: 1, width: "100%", padding: 10 }}>
       <Text
@@ -35,7 +42,7 @@ const Basket = () => {
       />
 
       <TouchableOpacity
-        onPress={createOrder}
+        onPress={onCreateOrder}
         style={{
           backgroundColor: "black",
           marginTop: "auto",
