@@ -24,7 +24,11 @@ const RestaurantDetailsPage = () => {
   const navigation = useNavigation();
 
   const id = route.params?.id;
-  const { setRestaurant: setBasketRestaurant, basket } = useBasketContext();
+  const {
+    setRestaurant: setBasketRestaurant,
+    basket,
+    basketDishes,
+  } = useBasketContext();
 
   useEffect(() => {
     //fetch restaurant with id.
@@ -86,7 +90,7 @@ const RestaurantDetailsPage = () => {
           }}
         >
           <Text style={{ color: "white", fontWeight: "600", fontSize: 15 }}>
-            Open Basket
+            Open Basket ({basketDishes.length})
           </Text>
         </TouchableOpacity>
       )}

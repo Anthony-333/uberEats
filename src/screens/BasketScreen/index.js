@@ -1,48 +1,52 @@
-import {View, Text, FlatList} from 'react-native';
-import React, {useState} from 'react';
-import {AntDesign} from '@expo/vector-icons';
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import BasketDishItem from "../../components/BasketDishItem";
+import { useBasketContext } from "../../context/BasketContext";
+import { useOrderContext } from "../../context/OrderContex";
 
-import restaurants from '../../../assets/data/restaurants.json';
-import BasketDishItem from '../../components/BasketDishItem';
-
-const restaurant = restaurants[0];
 
 const Basket = () => {
+  const { restaurant, basketDishes, totalPrice } = useBasketContext();
+  const { createOrder } = useOrderContext();
   return (
-    <View style={{flex: 1, width: '100%', padding: 10}}>
+    <View style={{ flex: 1, width: "100%", padding: 10 }}>
       <Text
         style={{
           fontSize: 24,
-          fontWeight: '600',
+          fontWeight: "600",
           marginVertical: 10,
-          color: 'black',
-        }}>
-        {restaurant.name}
+          color: "black",
+        }}
+      >
+        {restaurant?.name}
       </Text>
-      <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black'}}>
+      <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
         Your items
       </Text>
 
       <FlatList
-        data={restaurant.dishes}
-        renderItem={({item}) => <BasketDishItem basketDish={item} />}
+        data={basketDishes}
+        renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       />
 
       <View
-        style={{height: 1, backgroundColor: 'lightgrey', marginVertical: 10}}
+        style={{ height: 1, backgroundColor: "lightgrey", marginVertical: 10 }}
       />
 
-      <View
+      <TouchableOpacity
+        onPress={createOrder}
         style={{
-          backgroundColor: 'black',
-          marginTop: 'auto',
+          backgroundColor: "black",
+          marginTop: "auto",
           padding: 20,
-          alignItems: 'center',
-        }}>
-        <Text style={{color: 'white', fontWeight: '600', fontSize: 15}}>
-          Create Order
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "600", fontSize: 15 }}>
+          Create Order (${totalPrice.toFixed(2)})
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

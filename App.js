@@ -12,6 +12,8 @@ import { withAuthenticator } from "aws-amplify-react-native";
 import config from "./src/aws-exports";
 import AuthContextProvider from "./src/context/AuthContext";
 import BasketContextProvider from "./src/context/BasketContext";
+import OrderContextProvider from "./src/context/OrderContex";
+
 
 Amplify.configure({ ...config, Analytics: { disabled: true } });
 
@@ -22,7 +24,9 @@ const App = () => {
     <NavigationContainer>
       <AuthContextProvider>
         <BasketContextProvider>
-          <RootNavigator />
+          <OrderContextProvider>
+            <RootNavigator />
+          </OrderContextProvider>
         </BasketContextProvider>
       </AuthContextProvider>
       <StatusBar barStyle={isDarkMode ? "light" : "dark"} />
